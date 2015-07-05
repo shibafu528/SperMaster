@@ -19,7 +19,8 @@ import java.util.Date
  * Created by shibafu on 15/07/05.
  */
 public class EjaculationActivity : AppCompatActivity() {
-    val dateFormat = SimpleDateFormat("yyyy/MM/dd\nHH:mm")
+    val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+    val timeFormat = SimpleDateFormat("HH:mm")
 
     var ejaculation: Ejaculation = Ejaculation(Date(System.currentTimeMillis()))
 
@@ -40,6 +41,7 @@ public class EjaculationActivity : AppCompatActivity() {
         }
 
         date.setText(dateFormat.format(ejaculation.ejaculatedDate))
+        time.setText(timeFormat.format(ejaculation.ejaculatedDate))
         editTags.setText(ejaculation.tags().map { it.name }.join(", "))
         editNote.setText(ejaculation.note)
     }

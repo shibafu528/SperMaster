@@ -34,7 +34,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -43,31 +43,7 @@
         android:background="?colorPrimary"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
-        android:id="@+id/dateLayout"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:clickable="true">
-
-        <info.shibafu528.spermaster.view.KoruriTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date"
-            android:textSize="28sp"
-            android:id="@+id/textView"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_vertical" />
-
-        <info.shibafu528.spermaster.view.KoruriTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="yyyy/MM/dd\nHH:mm"
-            android:id="@+id/date"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:textSize="16sp"
-            android:lineSpacingExtra="2dp"/>
+        android:id="@+id/dateLayout" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -75,7 +51,69 @@
             android:id="@+id/imageView2"
             android:src="@drawable/ic_event_black"
             android:layout_gravity="center_vertical"
-            android:layout_margin="12dp" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp">
+
+            <info.shibafu528.spermaster.view.KoruriTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="yyyy/MM/dd"
+                android:id="@+id/date"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textSize="20sp"
+                android:focusable="true"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/primary_background" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/ic_expand_more_grey_900_18dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginLeft="4dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp">
+
+            <info.shibafu528.spermaster.view.KoruriTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="HH:mm"
+                android:id="@+id/time"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="@drawable/primary_background" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/ic_expand_more_grey_900_18dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginLeft="4dp" />
+        </FrameLayout>
     </LinearLayout>
 
     <ScrollView
@@ -116,7 +154,5 @@
                 android:padding="4dp" />
         </LinearLayout>
     </ScrollView>
-
-
 
 </RelativeLayout>
