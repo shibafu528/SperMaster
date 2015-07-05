@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout2"
+        android:padding="4dp"
+        style="?attr/buttonBarStyle">
+
+        <Button
+            style="?attr/buttonBarNegativeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/cancelButton"
+            android:layout_weight="1" />
+
+        <Button
+            style="?attr/buttonBarPositiveButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:id="@+id/okButton"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="?colorPrimary"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:id="@+id/dateLayout"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true">
+
+        <info.shibafu528.spermaster.view.KoruriTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="28sp"
+            android:id="@+id/textView"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical" />
+
+        <info.shibafu528.spermaster.view.KoruriTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="yyyy/MM/dd\nHH:mm"
+            android:id="@+id/date"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textSize="16sp"
+            android:lineSpacingExtra="2dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/ic_event_black"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="12dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/dateLayout"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_marginTop="4dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <info.shibafu528.spermaster.view.KoruriEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tags"
+                android:id="@+id/editTags"
+                android:background="@null"
+                android:gravity="start"
+                android:padding="4dp">
+                <requestFocus/>
+            </info.shibafu528.spermaster.view.KoruriEditText>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="4dp"
+                android:src="?colorPrimary"/>
+
+            <info.shibafu528.spermaster.view.KoruriEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Note"
+                android:id="@+id/editNote"
+                android:background="@null"
+                android:gravity="start"
+                android:padding="4dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

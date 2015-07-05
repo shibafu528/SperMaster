@@ -2,14 +2,13 @@ package info.shibafu528.spermaster.view
 
 import android.content.Context
 import android.graphics.Typeface
+import android.support.v7.widget.AppCompatEditText
 import android.util.AttributeSet
-import android.widget.EditText
-import android.widget.TextView
 
 /**
  * Created by shibafu on 15/07/05.
  */
-public class KoruriTextView : TextView {
+public class KoruriEditText : AppCompatEditText {
 
     constructor(context: Context) : super(context) {
         init(null)

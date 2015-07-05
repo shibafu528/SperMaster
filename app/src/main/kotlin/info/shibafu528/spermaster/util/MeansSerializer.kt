@@ -7,12 +7,6 @@ import java.util.Date
 /**
  * Created by shibafu on 15/07/05.
  */
-public final class DateSerializer : TypeSerializer() {
-    override fun getDeserializedType(): Class<*>? = javaClass<Date>()
-    override fun getSerializedType(): Class<*>? = javaClass<Long>()
-    override fun serialize(data: Any?): Any? = (data as Date).getTime()
-    override fun deserialize(data: Any?): Any? = Date(data as Long)
-}
 public final class MeansSerializer : TypeSerializer() {
     override fun getDeserializedType(): Class<*>? = javaClass<Means>()
     override fun getSerializedType(): Class<*>? = javaClass<Int>()

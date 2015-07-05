@@ -11,8 +11,7 @@
 
         <meta-data android:name="AA_DB_NAME" android:value="spermaster.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="1" />
-        <meta-data android:name="AA_SERIALIZERS"
-            android:value="info.shibafu528.spermaster.util.DateSerializer,info.shibafu528.spermaster.util.MeansSerializer" />
+        <!--<meta-data android:name="AA_SERIALIZERS" android:value="info.shibafu528.spermaster.util.MeansSerializer" />-->
 
         <activity
             android:name=".activity.MainActivity"
@@ -23,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.EjaculationActivity"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
