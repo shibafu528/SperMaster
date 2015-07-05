@@ -1,12 +1,16 @@
 package info.shibafu528.spermaster.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import com.activeandroid.ActiveAndroid
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Ejaculation
+import info.shibafu528.spermaster.util.showToast
 import kotlinx.android.synthetic.activity_ejaculation.*
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,27 +19,47 @@ import java.util.Date
  * Created by shibafu on 15/07/05.
  */
 public class EjaculationActivity : AppCompatActivity() {
-    val sdf = SimpleDateFormat("yyyy/MM/dd\nHH:mm")
+    val dateFormat = SimpleDateFormat("yyyy/MM/dd\nHH:mm")
+
+    var ejaculation: Ejaculation = Ejaculation(Date(System.currentTimeMillis()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ejaculation)
         getSupportActionBar().hide()
 
+        okButton.setOnClickListener(onSubmit())
         cancelButton.setOnClickListener { finish() }
 
         val ejaculationId = getIntent().getLongExtra(EXTRA_EJACULATION_ID, -1)
-        val ejaculation = if (ejaculationId < 0) {
-            // New
-            Ejaculation(Date(System.currentTimeMillis()))
-        } else {
-            // Edit
-            Select().from(javaClass<Ejaculation>()).where("_id = ?", ejaculationId).executeSingle()
+        if (ejaculationId > -1) {
+            // Edit Mode
+            ejaculation = Select().from(javaClass<Ejaculation>())
+                                  .where("_id = ?", ejaculationId)
+                                  .executeSingle()
         }
 
-        date.setText(sdf.format(ejaculation.ejaculatedDate))
+        date.setText(dateFormat.format(ejaculation.ejaculatedDate))
         editTags.setText(ejaculation.tags().map { it.name }.join(", "))
         editNote.setText(ejaculation.note)
+    }
+
+    private fun onSubmit(): (View) -> Unit = {
+        ejaculation.note = editNote.getText().toString()
+        ActiveAndroid.beginTransaction()
+        try {
+            //TODO: タグ周りがまだ
+            ejaculation.save()
+            ActiveAndroid.setTransactionSuccessful()
+            showToast("Updated.")
+            setResult(Activity.RESULT_OK)
+            finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            showToast(e.toString())
+        } finally {
+            ActiveAndroid.endTransaction()
+        }
     }
 
     companion object {

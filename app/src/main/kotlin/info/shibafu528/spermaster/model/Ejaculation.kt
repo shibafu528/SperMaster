@@ -20,7 +20,9 @@ public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : 
         this.note = note
     }
 
-    fun tags() : List<Tag> = getId()?.let { getMany(javaClass<TagMap>(), "EjaculationId").map { it.tag!! } } ?: emptyList()
+    fun tagMap() : List<TagMap> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId") } ?: emptyList()
+
+    fun tags() : List<Tag> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId").map { it.tag!! } } ?: emptyList()
 }
 
 public enum class Means(val label: String) {
