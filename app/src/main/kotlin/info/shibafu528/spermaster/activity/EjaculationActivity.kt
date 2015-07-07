@@ -10,6 +10,7 @@ import com.activeandroid.ActiveAndroid
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Ejaculation
+import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.util.showToast
 import kotlinx.android.synthetic.activity_ejaculation.*
 import java.text.SimpleDateFormat
