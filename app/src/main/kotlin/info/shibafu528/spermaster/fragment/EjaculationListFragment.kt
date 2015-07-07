@@ -51,7 +51,7 @@ public class EjaculationListFragment : Fragment() {
     }
 
     private fun resetListAdapter() {
-        recyclerView.setAdapter(EjaculationAdapter(getActivity(), Select().from(javaClass<Ejaculation>()).execute()))
+        recyclerView.setAdapter(EjaculationAdapter(getActivity(), Select().from(javaClass<Ejaculation>()).orderBy("EjaculatedDate desc").execute()))
     }
 
     private inner class EjaculationAdapter(context: Context, val dataList: List<Ejaculation>) : RecyclerView.Adapter<ViewHolder>() {
@@ -71,9 +71,18 @@ public class EjaculationListFragment : Fragment() {
         val tags: TextView by bindView(R.id.tags)
         val note: TextView by bindView(R.id.note)
 
+        fun Long.toDateString(): String {
+            val day = this / 86400000;
+            val time = this % 86400000;
+            val hour = time / 3600000;
+            val minute = time % 3600000 / 60000;
+            return "${day}日 ${hour}時間 ${minute}分"
+        }
+
         fun set(data: Ejaculation) {
-            //TODO: 時間周りどうしよう 設計うっかりしていた
-            timeSpan.setText("<Unknown>\n- " + dateFormat.format(data.ejaculatedDate))
+            val beginDate = data.before()?.let { dateFormat.format(it.ejaculatedDate) + "\n -" } ?: ""
+            timeSpan.setText(beginDate + dateFormat.format(data.ejaculatedDate))
+            totalTime.setText(data.timeSpan.toDateString())
             tags.setText(data.tags().map { it.name }.join(", "))
             if (TextUtils.isEmpty(data.note)) {
                 note.setVisibility(View.GONE)

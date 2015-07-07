@@ -4,6 +4,7 @@ import android.provider.BaseColumns
 import com.activeandroid.Model
 import com.activeandroid.query.Select
 import java.util.Date
+import kotlin.properties.Delegates
 import com.activeandroid.annotation.Column as column
 import com.activeandroid.annotation.Table as table
 
@@ -18,6 +19,10 @@ public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : 
 
     /** ユーザが任意に利用できるフリーメモの内容。 */
     column(name = "Note") var note: String = ""
+
+    val timeSpan: Long by Delegates.lazy {
+        ejaculatedDate.getTime() - (before()?.ejaculatedDate?.getTime() ?: ejaculatedDate.getTime())
+    }
 
     /**
      * 新規の射精記録を作成します。
@@ -36,6 +41,16 @@ public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : 
      * @return 紐付いているタグ
      */
     fun tags() : List<Tag> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId").map { it.tag!! } } ?: emptyList()
+
+    /**
+     * この記録の1つ手前の記録を取得します。
+     * @return 直前の記録。存在しない場合は`null`。
+     */
+    fun before() : Ejaculation? =
+            Select().from(javaClass<Ejaculation>())
+                    .where("EjaculatedDate < ?", ejaculatedDate.getTime().toString())
+                    .orderBy("EjaculatedDate desc")
+                    .executeSingle()
 }
 
 /**
