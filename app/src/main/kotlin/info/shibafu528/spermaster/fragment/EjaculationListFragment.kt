@@ -91,7 +91,7 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
         }
 
         fun set(data: Ejaculation) {
-            val beginDate = data.before()?.let { dateFormat.format(it.ejaculatedDate) + "\n -" } ?: ""
+            val beginDate = data.before()?.let { dateFormat.format(it.ejaculatedDate) + "\n~ " } ?: ""
             timeSpan.setText(beginDate + dateFormat.format(data.ejaculatedDate))
             totalTime.setText(data.timeSpan.toDateString())
             tags.setText(data.tags().map { it.name }.join(", "))
