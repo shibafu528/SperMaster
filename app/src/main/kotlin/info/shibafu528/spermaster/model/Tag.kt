@@ -2,7 +2,7 @@ package info.shibafu528.spermaster.model
 
 import android.provider.BaseColumns
 import com.activeandroid.Model
-import kotlin.reflect.KClass
+import com.activeandroid.query.Select
 import com.activeandroid.annotation.Column as column
 import com.activeandroid.annotation.Table as table
 
@@ -30,13 +30,21 @@ public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
          * @param inputTags ユーザによって入力されたタグ。`"tag1, tag2, tag3"`のような記法を期待し処理します。
          * @return タグデータ
          */
-        public fun parseInputTags(inputTags: String) : List<Tag> {
-            throw UnsupportedOperationException()
-        }
+        public fun parseInputTags(inputTags: String) : List<Tag> =
+            inputTags.split(',' , ';', '、')
+                     .map { it.trim() }
+                     .map { Select().from(javaClass<Tag>())
+                                    .where("Name = ?", it)
+                                    .executeSingle()         ?: Tag(it) }
     }
 }
 
 public table(name = "TagMap", id = BaseColumns._ID) class TagMap() : Model() {
     column(name = "EjaculationId", notNull = true, index = true) var ejaculation: Ejaculation? = null
     column(name = "TagId", notNull = true, index = true) var tag: Tag? = null
+
+    constructor(ejaculation: Ejaculation, tag: Tag) : this() {
+        this.ejaculation = ejaculation
+        this.tag = tag
+    }
 }
