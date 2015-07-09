@@ -92,15 +92,18 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
 
         fun set(data: Ejaculation) {
             val beginDate = data.before()?.let { dateFormat.format(it.ejaculatedDate) + "\n~ " } ?: ""
+
             timeSpan.setText(beginDate + dateFormat.format(data.ejaculatedDate))
             totalTime.setText(data.timeSpan.toDateString())
             tags.setText(data.tags().map { it.name }.join(", "))
+
             if (TextUtils.isEmpty(data.note)) {
                 note.setVisibility(View.GONE)
             } else {
                 note.setVisibility(View.VISIBLE)
                 note.setText(data.note)
             }
+
             v.setOnClickListener {
                 startActivityForResult(EjaculationActivity.createIntent(getActivity(), data.getId()), REQUEST_UPDATE)
             }

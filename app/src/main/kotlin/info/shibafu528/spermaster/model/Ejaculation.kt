@@ -52,17 +52,3 @@ public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : 
                     .orderBy("EjaculatedDate desc")
                     .executeSingle()
 }
-
-/**
- * これを持つ[Ejaculation]がどのような理由によるものかを表します。
- * @param label 画面上での表示
- */
-deprecated("Tagに置き換えるために作業が終わり次第削除されます。")
-public enum class Means(val label: String) {
-    /** 未設定。 */
-    UNSET("Unset"),
-    /** 自慰による射精。 */
-    MASTURBATION("Solo"),
-    /** パートナーを伴う性交による射精。 */
-    SEX("Multi")
-}

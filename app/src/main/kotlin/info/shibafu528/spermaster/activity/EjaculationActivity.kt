@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.query.Delete
+import com.activeandroid.query.From
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.model.TagMap
+import info.shibafu528.spermaster.util.putDebugLog
 import info.shibafu528.spermaster.util.showToast
 import kotlinx.android.synthetic.activity_ejaculation.*
 import java.text.SimpleDateFormat
@@ -54,12 +56,16 @@ public class EjaculationActivity : AppCompatActivity() {
         ActiveAndroid.beginTransaction()
         try {
             val ejaculationId = ejaculation.save()
-            Delete().from(javaClass<TagMap>()).where("EjaculationId = ?", ejaculationId.toString()).execute() : List<TagMap>
+
+            //タグの再マッピング
+            Delete().from(javaClass<TagMap>()).where("EjaculationId = ?", ejaculationId.toString()).execute<TagMap>()
             Tag.parseInputTags(editTags.getText().toString()).forEach {
                 if (it.getId() == null) it.save()
                 TagMap(ejaculation, it).save()
             }
-            //TODO: 未使用のタグをここで消していいと思う
+            //未使用タグの削除
+            Delete().from(javaClass<Tag>()).where("NOT EXISTS (select * from TagMap where TagMap.TagId = Tags._id)").execute<Tag>()
+
             ActiveAndroid.setTransactionSuccessful()
             showToast("Updated.")
             setResult(Activity.RESULT_OK)

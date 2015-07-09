@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.fragment.EjaculationListFragment
+import info.shibafu528.spermaster.model.Tag
+import info.shibafu528.spermaster.util.showToast
 
 public class MainActivity : AppCompatActivity() {
 
@@ -28,6 +31,7 @@ public class MainActivity : AppCompatActivity() {
         val id = item!!.getItemId()
 
         if (id == R.id.action_settings) {
+            showToast(Select().from(javaClass<Tag>()).execute<Tag>().map{ it.name }.joinToString())
             return true
         }
 

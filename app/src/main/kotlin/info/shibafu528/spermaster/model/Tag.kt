@@ -33,6 +33,7 @@ public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
         public fun parseInputTags(inputTags: String) : List<Tag> =
             inputTags.split(',' , ';', '、')
                      .map { it.trim() }
+                     .filter { !"".equals(it) }
                      .map { Select().from(javaClass<Tag>())
                                     .where("Name = ?", it)
                                     .executeSingle()         ?: Tag(it) }
