@@ -10,9 +10,8 @@ import android.view.View
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.model.Tag
@@ -25,7 +24,7 @@ import java.util.Date
 /**
  * Created by shibafu on 15/07/05.
  */
-public class EjaculationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class EjaculationActivity : AppCompatActivity(), CalendarDatePickerDialog.OnDateSetListener, RadialTimePickerDialog.OnTimeSetListener {
     val dateFormat = SimpleDateFormat("yyyy/MM/dd")
     val timeFormat = SimpleDateFormat("HH:mm")
 
@@ -38,14 +37,14 @@ public class EjaculationActivity : AppCompatActivity(), DatePickerDialog.OnDateS
 
         date.setOnClickListener {
             ejaculation.ejaculatedDate.toCalendar().let {
-                DatePickerDialog.newInstance(this, it.year, it.month, it.day)
-                                .show(getFragmentManager(), "date")
+                CalendarDatePickerDialog.newInstance(this, it.year, it.month, it.day)
+                        .show(getSupportFragmentManager(), "date")
             }
         }
         time.setOnClickListener {
             ejaculation.ejaculatedDate.toCalendar().let {
-                TimePickerDialog.newInstance(this, it.hourOfDay, it.minute, is24HourMode())
-                                .show(getFragmentManager(), "time")
+                RadialTimePickerDialog.newInstance(this, it.hourOfDay, it.minute, is24HourMode())
+                        .show(getSupportFragmentManager(), "time")
             }
         }
         okButton.setOnClickListener(onSubmit())
@@ -67,7 +66,16 @@ public class EjaculationActivity : AppCompatActivity(), DatePickerDialog.OnDateS
 
     private fun is24HourMode() = "24".equals(Settings.System.getString(getContentResolver(), Settings.System.TIME_12_24))
 
-    override fun onDateSet(p0: DatePickerDialog?, p1: Int, p2: Int, p3: Int) {
+    override fun onTimeSet(p0: RadialTimePickerDialog?, p1: Int, p2: Int) {
+        ejaculation.ejaculatedDate = ejaculation.ejaculatedDate.toCalendar().let {
+            it.hourOfDay = p1
+            it.minute = p2
+            it.getTime()
+        }
+        time.setText(timeFormat.format(ejaculation.ejaculatedDate))
+    }
+
+    override fun onDateSet(p0: CalendarDatePickerDialog?, p1: Int, p2: Int, p3: Int) {
         ejaculation.ejaculatedDate = ejaculation.ejaculatedDate.toCalendar().let {
             it.year = p1
             it.month = p2
@@ -75,15 +83,6 @@ public class EjaculationActivity : AppCompatActivity(), DatePickerDialog.OnDateS
             it.getTime()
         }
         date.setText(dateFormat.format(ejaculation.ejaculatedDate))
-    }
-
-    override fun onTimeSet(p0: RadialPickerLayout?, p1: Int, p2: Int) {
-        ejaculation.ejaculatedDate = ejaculation.ejaculatedDate.toCalendar().let {
-            it.hourOfDay = p1
-            it.minute = p2
-            it.getTime()
-        }
-        time.setText(timeFormat.format(ejaculation.ejaculatedDate))
     }
 
     private fun onSubmit(): (View) -> Unit = {
