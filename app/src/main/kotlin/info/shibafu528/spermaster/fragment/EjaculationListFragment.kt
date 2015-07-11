@@ -14,11 +14,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import butterknife.bindView
+import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
+import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.activity.EjaculationActivity
 import info.shibafu528.spermaster.model.Ejaculation
+import info.shibafu528.spermaster.util.MemoizeDelayed
+import info.shibafu528.spermaster.model.TagMap
 import info.shibafu528.spermaster.util.showToast
 import kotlinx.android.synthetic.fragment_recycler.addFab
 import kotlinx.android.synthetic.fragment_recycler.recyclerView
@@ -55,9 +59,20 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
 
     override fun onDialogChose(requestCode: Int, extendCode: Long, which: Int) {
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            Model.delete(javaClass<Ejaculation>(), extendCode)
-            showToast("削除しました")
-            resetListAdapter()
+            ActiveAndroid.beginTransaction()
+            try {
+                Delete().from(javaClass<TagMap>()).where("EjaculationId = ?", extendCode.toString()).execute<TagMap>()
+                Model.delete(javaClass<Ejaculation>(), extendCode)
+                ActiveAndroid.setTransactionSuccessful()
+                MemoizeDelayed.purge()
+                showToast("削除しました")
+                resetListAdapter()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                showToast("削除に失敗しました\n${e.toString()}")
+            } finally {
+                ActiveAndroid.endTransaction()
+            }
         }
     }
 

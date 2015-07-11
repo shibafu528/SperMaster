@@ -3,8 +3,8 @@ package info.shibafu528.spermaster.model
 import android.provider.BaseColumns
 import com.activeandroid.Model
 import com.activeandroid.query.Select
+import info.shibafu528.spermaster.util.MemoizeDelayed
 import java.util.Date
-import kotlin.properties.Delegates
 import com.activeandroid.annotation.Column as column
 import com.activeandroid.annotation.Table as table
 
@@ -20,7 +20,7 @@ public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : 
     /** ユーザが任意に利用できるフリーメモの内容。 */
     column(name = "Note") var note: String = ""
 
-    val timeSpan: Long by Delegates.lazy {
+    val timeSpan: Long by MemoizeDelayed {
         ejaculatedDate.getTime() - (before()?.ejaculatedDate?.getTime() ?: ejaculatedDate.getTime())
     }
 
