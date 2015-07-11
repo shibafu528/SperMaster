@@ -134,7 +134,8 @@
                 android:id="@+id/editTags"
                 android:background="@null"
                 android:gravity="start"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:singleLine="true">
                 <requestFocus/>
             </info.shibafu528.spermaster.view.KoruriEditText>
 
