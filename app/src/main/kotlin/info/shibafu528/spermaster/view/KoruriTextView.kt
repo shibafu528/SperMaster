@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.TextView
 
 /**
+ * Koruriフォントをデフォルトで使用するTextView
+ *
  * Created by shibafu on 15/07/05.
  */
 public class KoruriTextView : TextView {

@@ -6,6 +6,8 @@ import android.support.v7.widget.AppCompatEditText
 import android.util.AttributeSet
 
 /**
+ * Koruriフォントをデフォルトで使用するEditText
+ *
  * Created by shibafu on 15/07/05.
  */
 public class KoruriEditText : AppCompatEditText {

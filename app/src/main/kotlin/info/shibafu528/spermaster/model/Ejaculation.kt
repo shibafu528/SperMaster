@@ -15,12 +15,12 @@ import com.activeandroid.annotation.Table as table
  */
 public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : Model() {
     /** 射精の記録日時。 */
-    column(name = "EjaculatedDate") var ejaculatedDate: Date = Date()
+    column(name = "EjaculatedDate") public var ejaculatedDate: Date = Date()
 
     /** ユーザが任意に利用できるフリーメモの内容。 */
-    column(name = "Note") var note: String = ""
+    column(name = "Note") public var note: String = ""
 
-    val timeSpan: Long by MemoizeDelayed {
+    public val timeSpan: Long by MemoizeDelayed {
         ejaculatedDate.getTime() - (before()?.ejaculatedDate?.getTime() ?: ejaculatedDate.getTime())
     }
 
@@ -34,19 +34,19 @@ public table(name = "Ejaculations", id = BaseColumns._ID) class Ejaculation() : 
         this.note = note
     }
 
-    fun tagMap() : List<TagMap> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId") } ?: emptyList()
+    public fun tagMap() : List<TagMap> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId") } ?: emptyList()
 
     /**
      * この記録に紐付けられているタグのリストを取得します。
      * @return 紐付いているタグ
      */
-    fun tags() : List<Tag> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId").map { it.tag!! } } ?: emptyList()
+    public fun tags() : List<Tag> = getId()?.let { super.getMany(javaClass<TagMap>(), "EjaculationId").map { it.tag!! } } ?: emptyList()
 
     /**
      * この記録の1つ手前の記録を取得します。
      * @return 直前の記録。存在しない場合は`null`。
      */
-    fun before() : Ejaculation? =
+    public fun before() : Ejaculation? =
             Select().from(javaClass<Ejaculation>())
                     .where("EjaculatedDate < ?", ejaculatedDate.getTime().toString())
                     .orderBy("EjaculatedDate desc")

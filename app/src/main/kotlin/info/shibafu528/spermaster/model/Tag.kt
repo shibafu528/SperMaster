@@ -13,7 +13,7 @@ import com.activeandroid.annotation.Table as table
  */
 public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
     /** 表示名。しかし、ユーザ入力とのマッチングにもそのまま使われます。 */
-    column(name = "Name") var name: String = ""
+    column(name = "Name") public var name: String = ""
 
     /**
      * 新規のタグを作成します。
@@ -41,8 +41,11 @@ public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
 }
 
 public table(name = "TagMap", id = BaseColumns._ID) class TagMap() : Model() {
-    column(name = "EjaculationId", notNull = true, index = true) var ejaculation: Ejaculation? = null
-    column(name = "TagId", notNull = true, index = true) var tag: Tag? = null
+    column(name = "EjaculationId", notNull = true, index = true)
+    public var ejaculation: Ejaculation? = null
+
+    column(name = "TagId", notNull = true, index = true)
+    public var tag: Tag? = null
 
     constructor(ejaculation: Ejaculation, tag: Tag) : this() {
         this.ejaculation = ejaculation
