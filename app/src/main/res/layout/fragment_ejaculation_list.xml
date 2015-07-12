@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:scrollbars="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView3"
+                android:src="@drawable/ic_av_timer_white_36dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignBottom="@+id/currentSinceLeft"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="8dp" />
+
+            <info.shibafu528.spermaster.view.KoruriTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="d日 HH時間 mm分"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:id="@+id/currentTimespan"
+                android:textColor="#fff"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/imageView3"
+                android:layout_toEndOf="@+id/imageView3" />
+
+            <info.shibafu528.spermaster.view.KoruriTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="現在のセッション - "
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/currentSinceLeft"
+                android:textColor="#fff"
+                android:layout_below="@+id/currentTimespan"
+                android:layout_toRightOf="@+id/imageView3"
+                android:layout_toEndOf="@+id/imageView3"
+                android:layout_marginTop="2dp" />
+
+            <info.shibafu528.spermaster.view.KoruriTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="yyyy/MM/dd HH:mm"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/currentSince"
+                android:textColor="#fff"
+                android:layout_below="@+id/currentTimespan"
+                android:layout_toRightOf="@+id/currentSinceLeft"
+                android:layout_toEndOf="@+id/currentSinceLeft"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp" />
+
+            <info.shibafu528.spermaster.view.KoruriTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="から"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/currentSinceRight"
+                android:textColor="#fff"
+                android:layout_below="@+id/currentTimespan"
+                android:layout_toRightOf="@+id/currentSince"
+                android:layout_marginTop="2dp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/ic_add_white_24dp"
+        app:borderWidth="0dp"
+        app:fabSize="normal" />
+
+</FrameLayout>

@@ -24,8 +24,7 @@ import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.util.MemoizeDelayed
 import info.shibafu528.spermaster.model.TagMap
 import info.shibafu528.spermaster.util.showToast
-import kotlinx.android.synthetic.fragment_recycler.addFab
-import kotlinx.android.synthetic.fragment_recycler.recyclerView
+import kotlinx.android.synthetic.fragment_ejaculation_list.*
 import java.text.SimpleDateFormat
 
 /**
@@ -35,7 +34,7 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_recycler, container, false)
+        return inflater?.inflate(R.layout.fragment_ejaculation_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -78,6 +77,22 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
 
     private fun resetListAdapter() {
         recyclerView.setAdapter(EjaculationAdapter(getActivity(), Select().from(javaClass<Ejaculation>()).orderBy("EjaculatedDate desc").execute()))
+
+        val lastEjaculation = Select().from(javaClass<Ejaculation>())
+                                      .orderBy("EjaculatedDate desc")
+                                      .limit(1)
+                                      .executeSingle<Ejaculation>()
+        if (lastEjaculation == null) {
+            currentTimespan.setText("まだ記録がありません")
+            currentSince.setText("最初の記録を付けましょう!\n画面右下の + ボタンを押して下さい")
+            currentSinceLeft.setVisibility(View.GONE)
+            currentSinceRight.setVisibility(View.GONE)
+        } else {
+            currentTimespan.setText((System.currentTimeMillis() - lastEjaculation.ejaculatedDate.getTime()).toDateString())
+            currentSince.setText(dateFormat.format(lastEjaculation.ejaculatedDate))
+            currentSinceLeft.setVisibility(View.VISIBLE)
+            currentSinceRight.setVisibility(View.VISIBLE)
+        }
     }
 
     private inner class EjaculationAdapter(context: Context, val dataList: List<Ejaculation>) : RecyclerView.Adapter<ViewHolder>() {
@@ -96,14 +111,6 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
         val timeSpan: TextView by bindView(R.id.timeSpan)
         val tags: TextView by bindView(R.id.tags)
         val note: TextView by bindView(R.id.note)
-
-        fun Long.toDateString(): String {
-            val day = this / 86400000;
-            val time = this % 86400000;
-            val hour = time / 3600000;
-            val minute = time % 3600000 / 60000;
-            return "${day}日 ${hour}時間 ${minute}分"
-        }
 
         fun set(data: Ejaculation) {
             val beginDate = data.before()?.let { dateFormat.format(it.ejaculatedDate) + "\n~ " } ?: ""
@@ -139,5 +146,13 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
         protected val REQUEST_UPDATE: Int = 2
 
         protected val FRAGMENT_TAG_DELETE: String = "delete"
+    }
+
+    fun Long.toDateString(): String {
+        val day = this / 86400000;
+        val time = this % 86400000;
+        val hour = time / 3600000;
+        val minute = time % 3600000 / 60000;
+        return "${day}日 ${hour}時間 ${minute}分"
     }
 }
