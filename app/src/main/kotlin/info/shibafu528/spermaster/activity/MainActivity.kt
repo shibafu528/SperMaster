@@ -10,9 +10,11 @@ import android.view.MenuItem
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.fragment.EjaculationListFragment
+import info.shibafu528.spermaster.fragment.StatsFragment
 import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.util.showToast
-import kotlinx.android.synthetic.activity_main.*
+import kotlinx.android.synthetic.activity_main.pager
+import kotlinx.android.synthetic.activity_main.tabLayout
 
 public class MainActivity : AppCompatActivity() {
 
@@ -46,7 +48,7 @@ public class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment? {
             return when (position) {
                 0 -> EjaculationListFragment()
-                else -> EjaculationListFragment()
+                else -> StatsFragment()
             }
         }
 
