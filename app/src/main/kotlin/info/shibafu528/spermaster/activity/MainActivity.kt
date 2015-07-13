@@ -1,6 +1,9 @@
 package info.shibafu528.spermaster.activity
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -9,17 +12,16 @@ import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.fragment.EjaculationListFragment
 import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.util.showToast
+import kotlinx.android.synthetic.activity_main.*
 
 public class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame, EjaculationListFragment())
-                    .commit()
-        }
+
+        pager.setAdapter(MyFragmentPagerAdapter(getSupportFragmentManager()))
+        tabLayout.setupWithViewPager(pager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -36,5 +38,24 @@ public class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private inner class MyFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+        override fun getCount(): Int = 2
+
+        override fun getItem(position: Int): Fragment? {
+            return when (position) {
+                0 -> EjaculationListFragment()
+                else -> EjaculationListFragment()
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> "Records"
+                1 -> "Stats"
+                else -> ""
+            }
+        }
     }
 }
