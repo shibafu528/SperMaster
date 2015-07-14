@@ -241,7 +241,7 @@
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="d日 hh時間 mm分"
+                    android:text="n回"
                     android:textSize="@dimen/stats_data_text_size"
                     android:id="@+id/totalCount"
                     android:layout_column="2"
