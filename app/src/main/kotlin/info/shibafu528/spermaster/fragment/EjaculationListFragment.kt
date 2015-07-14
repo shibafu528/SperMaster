@@ -24,6 +24,7 @@ import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.util.MemoizeDelayed
 import info.shibafu528.spermaster.model.TagMap
 import info.shibafu528.spermaster.util.showToast
+import info.shibafu528.spermaster.util.toDateString
 import kotlinx.android.synthetic.fragment_ejaculation_list.*
 import java.text.SimpleDateFormat
 
@@ -146,13 +147,5 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
         protected val REQUEST_UPDATE: Int = 2
 
         protected val FRAGMENT_TAG_DELETE: String = "delete"
-    }
-
-    fun Long.toDateString(): String {
-        val day = this / 86400000;
-        val time = this % 86400000;
-        val hour = time / 3600000;
-        val minute = time % 3600000 / 60000;
-        return "${day}日 ${hour}時間 ${minute}分"
     }
 }
