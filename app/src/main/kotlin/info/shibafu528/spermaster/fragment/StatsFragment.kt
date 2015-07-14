@@ -1,6 +1,10 @@
 package info.shibafu528.spermaster.fragment
 
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +14,13 @@ import com.activeandroid.Cache
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Ejaculation
+import info.shibafu528.spermaster.util.showToast
 import info.shibafu528.spermaster.util.toDateString
 import kotlinx.android.synthetic.fragment_stats.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 /**
@@ -46,5 +55,59 @@ public class StatsFragment : Fragment() {
         //合計回数の取得
         val count = Select().from(javaClass<Ejaculation>()).count()
         totalCount.setText("${count}回")
+
+        //共有FAB
+        shareFab.setOnClickListener {
+            //キャプチャを取得
+            val capture = captureView()
+            if (capture == null) {
+                showToast("共有用データの作成に失敗しました")
+                return@setOnClickListener
+            }
+
+            //適当にストレージに一時出力
+            val tempUri = writeToTempFile(ByteArrayOutputStream().let {
+                capture.compress(Bitmap.CompressFormat.PNG, 100, it)
+                it.toByteArray()
+            })
+            capture.recycle()
+
+            //Intent発射
+            startActivity(Intent(Intent.ACTION_SEND)
+                    .setType("image/png")
+                    .putExtra(Intent.EXTRA_STREAM, tempUri)
+                    .putExtra(Intent.EXTRA_TEXT, getShareText()))
+        }
+    }
+
+    private fun captureView(): Bitmap? {
+        val view = getView()
+        try {
+            view.setDrawingCacheEnabled(true)
+            view.getDrawingCache()?.let {
+                return Bitmap.createBitmap(it)
+            }
+            return null
+        } finally {
+            view.setDrawingCacheEnabled(false)
+        }
+    }
+
+    private fun writeToTempFile(data: ByteArray): Uri? {
+        val tempPath = File(getActivity().getExternalCacheDir(), "share.png")
+        try {
+            FileOutputStream(tempPath).use {
+                it.write(data)
+            }
+            return Uri.fromFile(tempPath)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            showToast(e.toString())
+        }
+        return null
+    }
+
+    private fun getShareText(): String {
+        return "My NightLife Stats. #SperMaster"
     }
 }

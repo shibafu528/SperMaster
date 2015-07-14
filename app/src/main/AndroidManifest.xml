@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="info.shibafu528.spermaster" >
 
+    <uses-permission android:name="ANDROID.PERMISSION.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
