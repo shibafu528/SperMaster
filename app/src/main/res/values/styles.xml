@@ -7,13 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.Main" parent="AppTheme">
-        <item name="actionBarStyle">@style/AppTheme.Main.ActionBar</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="AppTheme.Main.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="elevation">0dp</item>
+    <style name="AppTheme.Main" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

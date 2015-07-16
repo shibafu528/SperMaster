@@ -21,18 +21,19 @@ import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.activity.EjaculationActivity
 import info.shibafu528.spermaster.model.Ejaculation
-import info.shibafu528.spermaster.util.MemoizeDelayed
+import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.model.TagMap
-import info.shibafu528.spermaster.util.showToast
-import info.shibafu528.spermaster.util.toDateString
+import info.shibafu528.spermaster.util.*
 import kotlinx.android.synthetic.fragment_ejaculation_list.*
 import java.text.SimpleDateFormat
+import com.squareup.otto.Subscribe as subscribe
 
 /**
  * Created by shibafu on 15/07/04.
  */
 public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnDialogChoseListener {
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm")
+    private var filterTag: Tag? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_ejaculation_list, container, false)
@@ -57,6 +58,16 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
         }
     }
 
+    override fun onResume() {
+        super<Fragment>.onResume()
+        EventBus.register(this)
+    }
+
+    override fun onPause() {
+        super<Fragment>.onPause()
+        EventBus.unregister(this)
+    }
+
     override fun onDialogChose(requestCode: Int, extendCode: Long, which: Int) {
         if (which == DialogInterface.BUTTON_POSITIVE) {
             ActiveAndroid.beginTransaction()
@@ -77,7 +88,13 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
     }
 
     private fun resetListAdapter() {
-        recyclerView.setAdapter(EjaculationAdapter(getActivity(), Select().from(javaClass<Ejaculation>()).orderBy("EjaculatedDate desc").execute()))
+        val query = Select().from(javaClass<Ejaculation>())
+                            .orderBy("EjaculatedDate desc")
+
+        //フィルタリング指定がある場合
+        filterTag?.let { query.where("EXISTS (select * from TagMap where TagMap.EjaculationId = Ejaculations._id and TagMap.TagId = ?)", it.getId()) }
+
+        recyclerView.setAdapter(EjaculationAdapter(getActivity(), query.execute()))
 
         val lastEjaculation = Select().from(javaClass<Ejaculation>())
                                       .orderBy("EjaculatedDate desc")
@@ -94,6 +111,16 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
             currentSinceLeft.setVisibility(View.VISIBLE)
             currentSinceRight.setVisibility(View.VISIBLE)
         }
+    }
+
+    subscribe fun onSelectedTag(event: SelectedTagFilterEvent) {
+        filterTag = event.tag
+        resetListAdapter()
+    }
+
+    subscribe fun onUnselectedTag(event: UnselectedTagFilterEvent) {
+        filterTag = null
+        resetListAdapter()
     }
 
     private inner class EjaculationAdapter(context: Context, val dataList: List<Ejaculation>) : RecyclerView.Adapter<ViewHolder>() {

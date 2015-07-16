@@ -23,6 +23,10 @@ public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
         this.name = name
     }
 
+    override fun toString(): String? {
+        return name
+    }
+
     companion object {
         /**
          * ユーザ入力のタグをパースし、DBに問い合わせて既存データであればそれを取得、存在しない場合は新規作成します。
