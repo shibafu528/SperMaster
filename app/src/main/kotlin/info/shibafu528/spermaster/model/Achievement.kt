@@ -2,12 +2,14 @@ package info.shibafu528.spermaster.model
 
 import android.provider.BaseColumns
 import android.support.v4.util.SparseArrayCompat
+import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.util.hourOfDay
+import info.shibafu528.spermaster.util.map
 import info.shibafu528.spermaster.util.minute
 import info.shibafu528.spermaster.util.toCalendar
-import kotlin.properties.Delegates
+import java.util.*
 import com.activeandroid.annotation.Column as column
 import com.activeandroid.annotation.Table as table
 
@@ -33,11 +35,49 @@ public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : 
     public val unlockCondition: (Ejaculation) -> Boolean
         get() = achievements.get(key).unlockCondition
 
+    public constructor(key: Int) : this() {
+        this.key = key
+    }
+
     companion object {
         private val achievements = SparseArrayCompat<AchievementDefinition>()
 
         init {
             defineAchievements()
+        }
+
+        /**
+         * 未解除の実績に対して、受け取った記録を用いてそれらの解除条件の評価を行います。
+         * @param updatedRecord 新規登録または更新した射精記録
+         */
+        public fun unlock(updatedRecord: Ejaculation): List<AchievementDefinition> {
+            //解除済み実績キー
+            val unlockedKeys = Select().from(javaClass<Achievement>())
+                                       .execute<Achievement>()
+                                       .map { it.key }
+
+            ActiveAndroid.beginTransaction()
+            try {
+                //解除に成功した実績を収集
+                val unlocked = achievements.map { i, def ->
+                    //解除済みか解除失敗ならボッシュート
+                    if (unlockedKeys.contains(i) || !def.unlockCondition(updatedRecord))
+                        return@map null
+
+                    //解除条件を達成した場合はDBへの記録もする
+                    Achievement(i).save()
+                    return@map def
+                }.filterNotNull()
+
+                //結果をコミットする(ペーペケッペッペペーペーペペ♪)
+                ActiveAndroid.setTransactionSuccessful()
+                return unlocked
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return emptyList()
+            } finally {
+                ActiveAndroid.endTransaction()
+            }
         }
 
         /**
@@ -56,7 +96,7 @@ public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : 
     /**
      * 実績定義の保持用データクラスです。
      */
-    private data class AchievementDefinition(val name: String,
+    public data class AchievementDefinition(val name: String,
                                              val description: String,
                                              val unlockCondition: (Ejaculation) -> Boolean)
 }

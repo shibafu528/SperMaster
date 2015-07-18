@@ -20,6 +20,7 @@ import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.activity.EjaculationActivity
+import info.shibafu528.spermaster.model.Achievement
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.model.TagMap
@@ -55,6 +56,16 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
 
         if (requestCode in (REQUEST_ADD..REQUEST_UPDATE) && resultCode == Activity.RESULT_OK) {
             resetListAdapter()
+
+            //実績解除判定
+            if (data != null && EjaculationActivity.getResultId(data) != null) {
+                val unlocked = Achievement.unlock(Select().from(javaClass<Ejaculation>())
+                                                          .where("_id = ?",
+                                                                  EjaculationActivity.getResultId(data))
+                                                          .executeSingle())
+                //TODO: もっとまともなものを出したい気もする
+                unlocked.forEach { showToast("[実績解除]\n${it.name}を解除しました！") }
+            }
         }
     }
 
