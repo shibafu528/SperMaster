@@ -67,12 +67,29 @@ public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : 
 private fun defineAchievements() {
     Achievement.create(0, "シコのケービィ", "伝説。") {
         Select().from(javaClass<Ejaculation>())
-                .where("EjaculatedDate >= ?", System.currentTimeMillis() - 60480000)
+                .where("EjaculatedDate >= ?", System.currentTimeMillis() - 60480000) // 1 week
                 .count() >= 40
     }
 
     Achievement.create(1, "1日の区切りに性欲をシメる", "その日の欲はその日のうちに片付けるのが粋というもの。") {
         val calendar = it.ejaculatedDate.toCalendar()
         calendar.hourOfDay == 23 && calendar.minute >= 50
+    }
+
+    Achievement.create(2, "射精で始まる1日", "気持ちの良いスタート。") {
+        val calendar = it.ejaculatedDate.toCalendar()
+        calendar.hourOfDay == 0 && calendar.minute <= 10
+    }
+
+    Achievement.create(3, "朝一番搾り", "朝に立ち上がる現象との関連性。") {
+        it.ejaculatedDate.toCalendar().hourOfDay in 5..9
+    }
+
+    Achievement.create(4, "ハローワールド", "ここから始まる。") {
+        true // 未獲得の実績が、記録追加・更新のタイミングで評価されるので必ず最初に解禁される
+    }
+
+    Achievement.create(5, "クイックリロード", "間髪を入れぬ素早い射精。") {
+        it.timeSpan < 1800000 // 30 min
     }
 }
