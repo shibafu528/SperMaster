@@ -23,6 +23,9 @@ public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : 
     column(name = "Key", notNull = true, unique = true)
     public var key: Int = -1
 
+    /** 実績の解除日時 */
+    column(name = "UnlockedDate") public var unlockedDate: Date = Date()
+
     /** 実績の名称。 */
     public val name: String
         get() = achievements.get(key).name

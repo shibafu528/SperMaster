@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.activeandroid.Cache
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
+import info.shibafu528.spermaster.activity.AchievementActivity
 import info.shibafu528.spermaster.model.Achievement
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.util.showToast
@@ -59,6 +60,11 @@ public class StatsFragment : Fragment() {
         //解除済み実績の個数取得
         val achievements = Select().from(javaClass<Achievement>()).count()
         achievementsCount.setText("${achievements}個")
+
+        //実績詳細ボタン
+        achievementsMore.setOnClickListener {
+            startActivity(Intent(getActivity(), javaClass<AchievementActivity>()))
+        }
 
         //共有FAB
         shareFab.setOnClickListener {
