@@ -3,15 +3,14 @@ package info.shibafu528.spermaster.view
 import android.content.Context
 import android.graphics.Typeface
 import android.support.v7.widget.AppCompatButton
-import android.support.v7.widget.AppCompatEditText
 import android.util.AttributeSet
 
 /**
- * Koruriフォントをデフォルトで使用するEditText
+ * Koruriフォントをデフォルトで使用するButton
  *
  * Created by shibafu on 15/07/05.
  */
-public class KoruriEditText : AppCompatEditText {
+public class KoruriButton : AppCompatButton {
 
     constructor(context: Context) : super(context) {
         init(null)

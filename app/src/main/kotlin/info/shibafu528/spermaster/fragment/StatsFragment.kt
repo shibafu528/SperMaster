@@ -3,7 +3,6 @@ package info.shibafu528.spermaster.fragment
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,6 +12,7 @@ import android.view.ViewGroup
 import com.activeandroid.Cache
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
+import info.shibafu528.spermaster.model.Achievement
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.util.showToast
 import info.shibafu528.spermaster.util.toDateString
@@ -55,6 +55,10 @@ public class StatsFragment : Fragment() {
         //合計回数の取得
         val count = Select().from(javaClass<Ejaculation>()).count()
         totalCount.setText("${count}回")
+
+        //解除済み実績の個数取得
+        val achievements = Select().from(javaClass<Achievement>()).count()
+        achievementsCount.setText("${achievements}個")
 
         //共有FAB
         shareFab.setOnClickListener {

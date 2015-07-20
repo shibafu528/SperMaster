@@ -5,6 +5,6 @@
     <dimen name="floating_action_button_fix">0dp</dimen>
     <dimen name="stats_data_separator_padding">4dp</dimen>
     <dimen name="stats_data_text_size">20sp</dimen>
-    <dimen name="stats_data_margin_top">12dp</dimen>
+    <dimen name="stats_data_margin">12dp</dimen>
     <dimen name="stats_data_card_margin">16dp</dimen>
 </resources>
