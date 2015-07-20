@@ -6,73 +6,17 @@
     tools:context="info.shibafu528.spermaster.fragment.StatsFragment">
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="8dp"
-        android:id="@+id/linearLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="150dp"
-        android:paddingTop="30dp">
-
-        <info.shibafu528.spermaster.view.KoruriTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Newbie Spermer"
-            android:id="@+id/achievement"
-            android:textColor="#fff"
-            android:fontFamily="sans-serif"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <info.shibafu528.spermaster.view.KoruriTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="\@user_name"
-            android:id="@+id/userName"
-            android:textColor="#fff"
-            android:layout_marginTop="6dp"
-            android:textSize="14dp" />
-    </LinearLayout>
-
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/icon"
-        android:src="@color/colorPrimary"
-        android:scaleType="fitCenter"
-        app:riv_corner_radius="30dip"
-        app:riv_border_width="2dp"
-        app:riv_border_color="#fff"
-        app:riv_mutate_background="true"
-        app:riv_tile_mode="repeat"
-        app:riv_oval="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="20dp"
-        android:elevation="8dp" />
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/cardView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/stats_data_card_margin"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="@dimen/stats_data_card_margin"
-        android:layout_marginBottom="-8dp"
         android:elevation="4dp">
         <TableLayout
             android:layout_width="wrap_content"
@@ -93,7 +37,7 @@
                     android:text="平均記録"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="0"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -103,7 +47,7 @@
                     android:text=":"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="1"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -113,7 +57,7 @@
                     android:id="@+id/average"
                     android:layout_column="2"
                     android:gravity="right"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
             </TableRow>
 
             <TableRow
@@ -126,7 +70,7 @@
                     android:text="最長記録"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="0"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -136,7 +80,7 @@
                     android:text=":"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="1"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -146,7 +90,7 @@
                     android:id="@+id/longest"
                     android:layout_column="2"
                     android:gravity="right"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
             </TableRow>
 
             <TableRow
@@ -159,7 +103,7 @@
                     android:text="最短記録"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="0"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -169,7 +113,7 @@
                     android:text=":"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="1"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -179,7 +123,7 @@
                     android:id="@+id/shortest"
                     android:layout_column="2"
                     android:gravity="right"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
             </TableRow>
 
             <TableRow
@@ -192,7 +136,7 @@
                     android:text="合計時間"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="0"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -202,7 +146,7 @@
                     android:text=":"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="1"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -212,7 +156,7 @@
                     android:id="@+id/totalTime"
                     android:layout_column="2"
                     android:gravity="right"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin" />
             </TableRow>
 
             <TableRow
@@ -226,7 +170,8 @@
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="0"
                     android:gravity="end"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin"
+                    android:layout_marginBottom="@dimen/stats_data_margin"/>
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -236,7 +181,8 @@
                     android:text=":"
                     android:textSize="@dimen/stats_data_text_size"
                     android:layout_column="1"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin"
+                    android:layout_marginBottom="@dimen/stats_data_margin"/>
 
                 <info.shibafu528.spermaster.view.KoruriTextView
                     android:layout_width="wrap_content"
@@ -246,9 +192,76 @@
                     android:id="@+id/totalCount"
                     android:layout_column="2"
                     android:gravity="right"
-                    android:layout_marginTop="@dimen/stats_data_margin_top" />
+                    android:layout_marginTop="@dimen/stats_data_margin"
+                    android:layout_marginBottom="@dimen/stats_data_margin"/>
             </TableRow>
         </TableLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/stats_data_card_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="@dimen/stats_data_card_margin"
+        android:elevation="4dp"
+        android:layout_below="@+id/cardView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="23dp"
+                android:layout_marginTop="@dimen/stats_data_margin"
+                android:layout_marginBottom="@dimen/stats_data_margin">
+
+                <info.shibafu528.spermaster.view.KoruriTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="解除した実績"
+                    android:textSize="@dimen/stats_data_text_size"
+                    android:gravity="center_vertical" />
+
+                <info.shibafu528.spermaster.view.KoruriTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="n個"
+                    android:textSize="@dimen/stats_data_text_size"
+                    android:id="@+id/achievementsCount"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:src="@color/colorPrimary" />
+
+            <info.shibafu528.spermaster.view.KoruriButton
+                style="?buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="詳細"
+                android:textSize="@dimen/stats_data_text_size"
+                android:id="@+id/achievementsMore"
+                android:gravity="center_vertical|end"
+                android:layout_gravity="right"
+                android:paddingLeft="20dp"
+                android:paddingRight="24dp"/>
+
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.design.widget.FloatingActionButton

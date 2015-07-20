@@ -102,7 +102,7 @@ public class EjaculationActivity : AppCompatActivity(), CalendarDatePickerDialog
 
             ActiveAndroid.setTransactionSuccessful()
             showToast("Updated.")
-            setResult(Activity.RESULT_OK)
+            setResult(Activity.RESULT_OK, Intent().putExtra(EXTRA_EJACULATION_ID, ejaculationId))
             finish()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -117,5 +117,12 @@ public class EjaculationActivity : AppCompatActivity(), CalendarDatePickerDialog
 
         fun createIntent(context: Context, id: Long = -1)
                 = Intent(context, javaClass<EjaculationActivity>()).putExtra(EXTRA_EJACULATION_ID, id)
+
+        fun getResultId(data: Intent): Long? {
+            if (data.hasExtra(EXTRA_EJACULATION_ID))
+                return data.getLongExtra(EXTRA_EJACULATION_ID, -1)
+            else
+                return null
+        }
     }
 }
