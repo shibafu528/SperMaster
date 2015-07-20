@@ -1,10 +1,9 @@
 package info.shibafu528.spermaster.view
 
 import android.content.Context
-import android.graphics.Typeface
 import android.util.AttributeSet
-import android.widget.EditText
 import android.widget.TextView
+import info.shibafu528.spermaster.util.TypefaceManager
 
 /**
  * Koruriフォントをデフォルトで使用するTextView
@@ -26,22 +25,11 @@ public class KoruriTextView : TextView {
     }
 
     fun init(attrs: AttributeSet?) {
-        if (typeface == null) {
-            typeface = Typeface.createFromAsset(getContext().getAssets(), "Koruri-Regular.ttf")
-        }
-        if (typefaceLight == null) {
-            typefaceLight = Typeface.createFromAsset(getContext().getAssets(), "Koruri-Light.ttf")
-        }
         val fontFamily: String? = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "fontFamily")
         if (fontFamily != null && !fontFamily.contains("light")) {
-            setTypeface(typeface)
+            setTypeface(TypefaceManager.getTypeface(getContext(), TypefaceManager.AssetTypeface.KORURI))
         } else {
-            setTypeface(typefaceLight)
+            setTypeface(TypefaceManager.getTypeface(getContext(), TypefaceManager.AssetTypeface.KORURI_LIGHT))
         }
-    }
-
-    companion object {
-        private var typeface: Typeface? = null
-        private var typefaceLight: Typeface? = null
     }
 }

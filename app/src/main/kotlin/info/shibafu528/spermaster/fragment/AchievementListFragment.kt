@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Achievement
+import info.shibafu528.spermaster.util.TypefaceManager
 import kotlinx.android.synthetic.fragment_achievement_list.recyclerView
 import java.text.SimpleDateFormat
 
@@ -46,8 +47,15 @@ public class AchievementListFragment : Fragment() {
 
     private inner class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
         fun set(data: Achievement) {
-            (v.findViewById(android.R.id.text1) as TextView).setText(data.name)
-            (v.findViewById(android.R.id.text2) as TextView).setText("${data.description}\n解除日時: ${dateFormat.format(data.unlockedDate)}")
+            val koruri = TypefaceManager.getTypeface(getActivity().getApplicationContext(), TypefaceManager.AssetTypeface.KORURI_LIGHT)
+
+            val text1 = v.findViewById(android.R.id.text1) as TextView
+            text1.setText(data.name)
+            text1.setTypeface(koruri)
+
+            val text2 = v.findViewById(android.R.id.text2) as TextView
+            text2.setText("${data.description}\n解除日時: ${dateFormat.format(data.unlockedDate)}")
+            text2.setTypeface(koruri)
         }
     }
 }
