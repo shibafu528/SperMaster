@@ -133,6 +133,6 @@ private fun defineAchievements() {
     }
 
     Achievement.create(5, "クイックリロード", "間髪を入れぬ素早い射精。") {
-        it.timeSpan < 1800000 // 30 min
+        it.timeSpan != 0L && it.timeSpan < 1800000L // 30 min
     }
 }
