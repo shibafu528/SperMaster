@@ -16,9 +16,9 @@ public class SimpleAlertDialogFragment : DialogFragment(), DialogInterface.OnCli
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val args = getArguments()
+        val args = arguments
 
-        val builder = AlertDialog.Builder(getActivity())
+        val builder = AlertDialog.Builder(activity)
         args.getInt(PARAM_ICON, -1).let { if (it > -1 ) builder.setIcon(it) }
         args.getString(PARAM_TITLE)?.let { builder.setTitle(it) }
         args.getString(PARAM_MESSAGE)?.let { builder.setMessage(it) }
@@ -33,13 +33,13 @@ public class SimpleAlertDialogFragment : DialogFragment(), DialogInterface.OnCli
         dismiss()
 
         val listener: OnDialogChoseListener? = when {
-            getParentFragment() is OnDialogChoseListener -> getParentFragment() as OnDialogChoseListener
-            getTargetFragment() is OnDialogChoseListener -> getTargetFragment() as OnDialogChoseListener
-            getActivity() is OnDialogChoseListener -> getActivity() as OnDialogChoseListener
+            parentFragment is OnDialogChoseListener -> parentFragment as OnDialogChoseListener
+            targetFragment is OnDialogChoseListener -> targetFragment as OnDialogChoseListener
+            activity is OnDialogChoseListener -> activity as OnDialogChoseListener
             else -> null
         }
 
-        getArguments()?.let {
+        arguments?.let {
             listener?.onDialogChose(
                     it.getInt(PARAM_REQUEST_CODE),
                     it.getLong(PARAM_EXTEND_CODE),
@@ -80,7 +80,7 @@ public class SimpleAlertDialogFragment : DialogFragment(), DialogInterface.OnCli
             positive?.let { args.putString(PARAM_POSITIVE, it) }
             neutral?.let { args.putString(PARAM_NEUTRAL, it) }
             negative?.let { args.putString(PARAM_NEGATIVE, it) }
-            fragment.setArguments(args)
+            fragment.arguments = args
             return fragment
         }
     }

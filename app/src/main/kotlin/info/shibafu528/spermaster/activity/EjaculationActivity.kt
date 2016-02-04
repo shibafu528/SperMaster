@@ -16,10 +16,16 @@ import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.model.Tag
 import info.shibafu528.spermaster.model.TagMap
-import info.shibafu528.spermaster.util.*
-import kotlinx.android.synthetic.activity_ejaculation.*
+import info.shibafu528.spermaster.util.day
+import info.shibafu528.spermaster.util.hourOfDay
+import info.shibafu528.spermaster.util.minute
+import info.shibafu528.spermaster.util.month
+import info.shibafu528.spermaster.util.showToast
+import info.shibafu528.spermaster.util.toCalendar
+import info.shibafu528.spermaster.util.year
+import kotlinx.android.synthetic.main.activity_ejaculation.*
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 /**
  * Created by shibafu on 15/07/05.
@@ -31,48 +37,48 @@ public class EjaculationActivity : AppCompatActivity(), CalendarDatePickerDialog
     var ejaculation: Ejaculation = Ejaculation(Date(System.currentTimeMillis()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<AppCompatActivity>.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ejaculation)
-        getSupportActionBar().hide()
+        supportActionBar?.hide()
 
         date.setOnClickListener {
             ejaculation.ejaculatedDate.toCalendar().let {
                 CalendarDatePickerDialog.newInstance(this, it.year, it.month, it.day)
-                        .show(getSupportFragmentManager(), "date")
+                        .show(supportFragmentManager, "date")
             }
         }
         time.setOnClickListener {
             ejaculation.ejaculatedDate.toCalendar().let {
                 RadialTimePickerDialog.newInstance(this, it.hourOfDay, it.minute, is24HourMode())
-                        .show(getSupportFragmentManager(), "time")
+                        .show(supportFragmentManager, "time")
             }
         }
         okButton.setOnClickListener(onSubmit())
         cancelButton.setOnClickListener { finish() }
 
-        val ejaculationId = getIntent().getLongExtra(EXTRA_EJACULATION_ID, -1)
+        val ejaculationId = intent.getLongExtra(EXTRA_EJACULATION_ID, -1)
         if (ejaculationId > -1) {
             // Edit Mode
-            ejaculation = Select().from(javaClass<Ejaculation>())
+            ejaculation = Select().from(Ejaculation::class.java)
                                   .where("_id = ?", ejaculationId)
                                   .executeSingle()
         }
 
-        date.setText(dateFormat.format(ejaculation.ejaculatedDate))
-        time.setText(timeFormat.format(ejaculation.ejaculatedDate))
-        editTags.setText(ejaculation.tags().map { it.name }.join(", "))
+        date.text = dateFormat.format(ejaculation.ejaculatedDate)
+        time.text = timeFormat.format(ejaculation.ejaculatedDate)
+        editTags.setText(ejaculation.tags().map { it.name }.joinToString(", "))
         editNote.setText(ejaculation.note)
     }
 
-    private fun is24HourMode() = "24".equals(Settings.System.getString(getContentResolver(), Settings.System.TIME_12_24))
+    private fun is24HourMode() = "24".equals(Settings.System.getString(contentResolver, Settings.System.TIME_12_24))
 
     override fun onTimeSet(p0: RadialTimePickerDialog?, p1: Int, p2: Int) {
         ejaculation.ejaculatedDate = ejaculation.ejaculatedDate.toCalendar().let {
             it.hourOfDay = p1
             it.minute = p2
-            it.getTime()
+            it.time
         }
-        time.setText(timeFormat.format(ejaculation.ejaculatedDate))
+        time.text = timeFormat.format(ejaculation.ejaculatedDate)
     }
 
     override fun onDateSet(p0: CalendarDatePickerDialog?, p1: Int, p2: Int, p3: Int) {
@@ -80,25 +86,25 @@ public class EjaculationActivity : AppCompatActivity(), CalendarDatePickerDialog
             it.year = p1
             it.month = p2
             it.day = p3
-            it.getTime()
+            it.time
         }
-        date.setText(dateFormat.format(ejaculation.ejaculatedDate))
+        date.text = dateFormat.format(ejaculation.ejaculatedDate)
     }
 
     private fun onSubmit(): (View) -> Unit = {
-        ejaculation.note = editNote.getText().toString()
+        ejaculation.note = editNote.text.toString()
         ActiveAndroid.beginTransaction()
         try {
             val ejaculationId = ejaculation.save()
 
             //タグの再マッピング
-            Delete().from(javaClass<TagMap>()).where("EjaculationId = ?", ejaculationId.toString()).execute<TagMap>()
-            Tag.parseInputTags(editTags.getText().toString()).forEach {
-                if (it.getId() == null) it.save()
+            Delete().from(TagMap::class.java).where("EjaculationId = ?", ejaculationId.toString()).execute<TagMap>()
+            Tag.parseInputTags(editTags.text.toString()).forEach {
+                if (it.id == null) it.save()
                 TagMap(ejaculation, it).save()
             }
             //未使用タグの削除
-            Delete().from(javaClass<Tag>()).where("NOT EXISTS (select * from TagMap where TagMap.TagId = Tags._id)").execute<Tag>()
+            Delete().from(Tag::class.java).where("NOT EXISTS (select * from TagMap where TagMap.TagId = Tags._id)").execute<Tag>()
 
             ActiveAndroid.setTransactionSuccessful()
             showToast("Updated.")
@@ -116,7 +122,7 @@ public class EjaculationActivity : AppCompatActivity(), CalendarDatePickerDialog
         private val EXTRA_EJACULATION_ID = "EjaculationId"
 
         fun createIntent(context: Context, id: Long = -1)
-                = Intent(context, javaClass<EjaculationActivity>()).putExtra(EXTRA_EJACULATION_ID, id)
+                = Intent(context, EjaculationActivity::class.java).putExtra(EXTRA_EJACULATION_ID, id)
 
         fun getResultId(data: Intent): Long? {
             if (data.hasExtra(EXTRA_EJACULATION_ID))

@@ -8,7 +8,7 @@ import java.util.*
 
 public fun Date.toCalendar() : Calendar {
     val cal = Calendar.getInstance()
-    cal.setTime(this)
+    cal.time = this
     return cal
 }
 

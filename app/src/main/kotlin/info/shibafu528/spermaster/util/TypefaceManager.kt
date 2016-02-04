@@ -12,10 +12,10 @@ public final class TypefaceManager {
         private val typefaces = SparseArrayCompat<Typeface>()
 
         public fun getTypeface(context: Context, asset: AssetTypeface): Typeface {
-            var typeface = typefaces.get(asset.ordinal())
+            var typeface = typefaces.get(asset.ordinal)
             if (typeface == null) {
-                typeface = Typeface.createFromAsset(context.getAssets(), asset.fileName)
-                typefaces[asset.ordinal()] = typeface
+                typeface = Typeface.createFromAsset(context.assets, asset.fileName)
+                typefaces[asset.ordinal] = typeface
             }
             return typeface
         }

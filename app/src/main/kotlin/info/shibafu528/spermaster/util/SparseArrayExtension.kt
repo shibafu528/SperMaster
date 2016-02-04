@@ -19,6 +19,6 @@ public fun <T, R> SparseArrayCompat<T>.map(operation: (Int, T) -> R): List<R> {
     return mappedValues
 }
 
-public fun <T> SparseArrayCompat<T>.set(key: Int, value: T) {
+public operator fun <T> SparseArrayCompat<T>.set(key: Int, value: T) {
     this.put(key, value)
 }

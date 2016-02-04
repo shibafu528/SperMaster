@@ -13,7 +13,7 @@ import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Achievement
 import info.shibafu528.spermaster.util.TypefaceManager
-import kotlinx.android.synthetic.fragment_achievement_list.recyclerView
+import kotlinx.android.synthetic.main.fragment_achievement_list.*
 import java.text.SimpleDateFormat
 
 /**
@@ -27,35 +27,37 @@ public class AchievementListFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super<Fragment>.onActivityCreated(savedInstanceState)
+        super.onActivityCreated(savedInstanceState)
 
-        recyclerView.setAdapter(AchievementAdapter(getActivity(), Select().from(javaClass<Achievement>()).orderBy("Key asc").execute()))
+        recyclerView.adapter = AchievementAdapter(activity, Select().from(Achievement::class.java).orderBy("Key asc").execute())
 
-        recyclerView.setLayoutManager(LinearLayoutManager(getActivity()))
+        recyclerView.layoutManager = LinearLayoutManager(activity)
     }
 
     private inner class AchievementAdapter(context: Context, val dataList: List<Achievement>) : RecyclerView.Adapter<AchievementListFragment.ViewHolder>() {
         val inflater : LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        override fun getItemCount() = dataList.size()
+        override fun getItemCount() = dataList.size
 
         override fun onCreateViewHolder(p: ViewGroup?, vt: Int) = ViewHolder(inflater.inflate(android.R.layout.simple_list_item_2, p, false))
 
-        override fun onBindViewHolder(vh: AchievementListFragment.ViewHolder?, pos: Int) = vh?.set(dataList.get(pos))
+        override fun onBindViewHolder(vh: AchievementListFragment.ViewHolder?, pos: Int) {
+            vh?.set(dataList[pos])
+        }
 
     }
 
     private inner class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
         fun set(data: Achievement) {
-            val koruri = TypefaceManager.getTypeface(getActivity().getApplicationContext(), TypefaceManager.AssetTypeface.KORURI_LIGHT)
+            val koruri = TypefaceManager.getTypeface(activity.applicationContext, TypefaceManager.AssetTypeface.KORURI_LIGHT)
 
             val text1 = v.findViewById(android.R.id.text1) as TextView
-            text1.setText(data.name)
-            text1.setTypeface(koruri)
+            text1.text = data.name
+            text1.typeface = koruri
 
             val text2 = v.findViewById(android.R.id.text2) as TextView
-            text2.setText("${data.description}\n解除日時: ${dateFormat.format(data.unlockedDate)}")
-            text2.setTypeface(koruri)
+            text2.text = "${data.description}\n解除日時: ${dateFormat.format(data.unlockedDate)}"
+            text2.typeface = koruri
         }
     }
 }

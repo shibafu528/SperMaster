@@ -27,9 +27,9 @@ public class KoruriTextView : TextView {
     fun init(attrs: AttributeSet?) {
         val fontFamily: String? = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "fontFamily")
         if (fontFamily != null && !fontFamily.contains("light")) {
-            setTypeface(TypefaceManager.getTypeface(getContext(), TypefaceManager.AssetTypeface.KORURI))
+            typeface = TypefaceManager.getTypeface(context, TypefaceManager.AssetTypeface.KORURI)
         } else {
-            setTypeface(TypefaceManager.getTypeface(getContext(), TypefaceManager.AssetTypeface.KORURI_LIGHT))
+            typeface = TypefaceManager.getTypeface(context, TypefaceManager.AssetTypeface.KORURI_LIGHT)
         }
     }
 }
