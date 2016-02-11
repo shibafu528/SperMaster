@@ -2,18 +2,18 @@ package info.shibafu528.spermaster.model
 
 import android.provider.BaseColumns
 import com.activeandroid.Model
+import com.activeandroid.annotation.Column
+import com.activeandroid.annotation.Table
 import com.activeandroid.query.Select
-import com.activeandroid.annotation.Column as column
-import com.activeandroid.annotation.Table as table
 
 /**
  * [Ejaculation]に0..n個紐付けることの出来るタグのデータモデル。
  *
  * Created by shibafu on 15/07/05.
  */
-public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
+public @Table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
     /** 表示名。しかし、ユーザ入力とのマッチングにもそのまま使われます。 */
-    column(name = "Name") public var name: String = ""
+    @Column(name = "Name") public var name: String = ""
 
     /**
      * 新規のタグを作成します。
@@ -23,7 +23,7 @@ public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
         this.name = name
     }
 
-    override fun toString(): String? {
+    override fun toString(): String {
         return name
     }
 
@@ -37,18 +37,18 @@ public table(name = "Tags", id = BaseColumns._ID) class Tag() : Model() {
         public fun parseInputTags(inputTags: String) : List<Tag> =
             inputTags.split(',' , ';', '、')
                      .map { it.trim() }
-                     .filter { !"".equals(it) }
-                     .map { Select().from(javaClass<Tag>())
+                     .filterNot { "".equals(it) }
+                     .map { Select().from(Tag::class.java)
                                     .where("Name = ?", it)
                                     .executeSingle()         ?: Tag(it) }
     }
 }
 
-public table(name = "TagMap", id = BaseColumns._ID) class TagMap() : Model() {
-    column(name = "EjaculationId", notNull = true, index = true)
+public @Table(name = "TagMap", id = BaseColumns._ID) class TagMap() : Model() {
+    @Column(name = "EjaculationId", notNull = true, index = true)
     public var ejaculation: Ejaculation? = null
 
-    column(name = "TagId", notNull = true, index = true)
+    @Column(name = "TagId", notNull = true, index = true)
     public var tag: Tag? = null
 
     constructor(ejaculation: Ejaculation, tag: Tag) : this() {

@@ -17,7 +17,7 @@ import info.shibafu528.spermaster.model.Achievement
 import info.shibafu528.spermaster.model.Ejaculation
 import info.shibafu528.spermaster.util.showToast
 import info.shibafu528.spermaster.util.toDateString
-import kotlinx.android.synthetic.fragment_stats.*
+import kotlinx.android.synthetic.main.fragment_stats.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -27,7 +27,7 @@ import java.io.IOException
 /**
  * Created by shibafu on 15/07/13.
  */
-public class StatsFragment : Fragment() {
+class StatsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_stats, container, false)
@@ -46,24 +46,24 @@ public class StatsFragment : Fragment() {
                         "order by EjaculatedDate desc); ", null
         ).let {
             if (it.moveToFirst()) {
-                average.setText(it.getLong(0).toDateString())
-                longest.setText(it.getLong(1).toDateString())
-                shortest.setText(it.getLong(2).toDateString())
-                totalTime.setText(it.getLong(3).toDateString())
+                average.text = it.getLong(0).toDateString()
+                longest.text = it.getLong(1).toDateString()
+                shortest.text = it.getLong(2).toDateString()
+                totalTime.text = it.getLong(3).toDateString()
             }
         }
 
         //合計回数の取得
-        val count = Select().from(javaClass<Ejaculation>()).count()
-        totalCount.setText("${count}回")
+        val count = Select().from(Ejaculation::class.java).count()
+        totalCount.text = "${count}回"
 
         //解除済み実績の個数取得
-        val achievements = Select().from(javaClass<Achievement>()).count()
-        achievementsCount.setText("${achievements}個")
+        val achievements = Select().from(Achievement::class.java).count()
+        achievementsCount.text = "${achievements}個"
 
         //実績詳細ボタン
         achievementsMore.setOnClickListener {
-            startActivity(Intent(getActivity(), javaClass<AchievementActivity>()))
+            startActivity(Intent(activity, AchievementActivity::class.java))
         }
 
         //共有FAB
@@ -91,20 +91,20 @@ public class StatsFragment : Fragment() {
     }
 
     private fun captureView(): Bitmap? {
-        val view = getView()
+        val view = view ?: return null
         try {
-            view.setDrawingCacheEnabled(true)
-            view.getDrawingCache()?.let {
+            view.isDrawingCacheEnabled = true
+            view.drawingCache?.let {
                 return Bitmap.createBitmap(it)
             }
             return null
         } finally {
-            view.setDrawingCacheEnabled(false)
+            view.isDrawingCacheEnabled = false
         }
     }
 
     private fun writeToTempFile(data: ByteArray): Uri? {
-        val tempPath = File(getActivity().getExternalCacheDir(), "share.png")
+        val tempPath = File(activity.externalCacheDir, "share.png")
         try {
             FileOutputStream(tempPath).use {
                 it.write(data)

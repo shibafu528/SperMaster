@@ -1,6 +1,5 @@
 package info.shibafu528.spermaster.activity
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -20,10 +19,7 @@ import info.shibafu528.spermaster.util.EventBus
 import info.shibafu528.spermaster.util.SelectedTagFilterEvent
 import info.shibafu528.spermaster.util.UnselectedTagFilterEvent
 import info.shibafu528.spermaster.util.showToast
-import kotlinx.android.synthetic.activity_main.pager
-import kotlinx.android.synthetic.activity_main.spinner
-import kotlinx.android.synthetic.activity_main.tabLayout
-import kotlinx.android.synthetic.activity_main.toolBar
+import kotlinx.android.synthetic.main.activity_main.*
 
 public class MainActivity : AppCompatActivity() {
 
@@ -32,39 +28,39 @@ public class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolBar)
-        getSupportActionBar().setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        pager.setAdapter(MyFragmentPagerAdapter(getSupportFragmentManager()))
+        pager.adapter = MyFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(pager)
 
-        spinner.setAdapter(ArrayAdapter<Tag>(this,
+        spinner.adapter = ArrayAdapter<Tag>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                listOf(Tag("ALL")) + Select().from(javaClass<Tag>()).execute<Tag>() ))
+                listOf(Tag("ALL")) + Select().from(Tag::class.java).execute<Tag>() )
 
         //タグが選択された時にFragment等に通知する
-        spinner.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener {
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position == 0) {
                     EventBus.post(UnselectedTagFilterEvent())
                 } else {
-                    EventBus.post(SelectedTagFilterEvent(parent!!.getSelectedItem() as Tag))
+                    EventBus.post(SelectedTagFilterEvent(parent!!.selectedItem as Tag))
                 }
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item!!.getItemId()
+        val id = item!!.itemId
 
         if (id == R.id.action_settings) {
-            showToast(Select().from(javaClass<Tag>()).execute<Tag>().map{ it.name }.joinToString())
+            showToast(Select().from(Tag::class.java).execute<Tag>().map{ it.name }.joinToString())
             return true
         }
 

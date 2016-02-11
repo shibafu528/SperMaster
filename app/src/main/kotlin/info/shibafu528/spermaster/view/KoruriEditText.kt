@@ -1,7 +1,6 @@
 package info.shibafu528.spermaster.view
 
 import android.content.Context
-import android.graphics.Typeface
 import android.support.v7.widget.AppCompatEditText
 import android.util.AttributeSet
 import info.shibafu528.spermaster.util.TypefaceManager
@@ -28,9 +27,9 @@ public class KoruriEditText : AppCompatEditText {
     fun init(attrs: AttributeSet?) {
         val fontFamily: String? = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "fontFamily")
         if (fontFamily != null && !fontFamily.contains("light")) {
-            setTypeface(TypefaceManager.getTypeface(getContext(), TypefaceManager.AssetTypeface.KORURI))
+            typeface = TypefaceManager.getTypeface(context, TypefaceManager.AssetTypeface.KORURI)
         } else {
-            setTypeface(TypefaceManager.getTypeface(getContext(), TypefaceManager.AssetTypeface.KORURI_LIGHT))
+            typeface = TypefaceManager.getTypeface(context, TypefaceManager.AssetTypeface.KORURI_LIGHT)
         }
     }
 

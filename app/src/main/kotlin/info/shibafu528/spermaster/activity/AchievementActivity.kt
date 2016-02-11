@@ -12,17 +12,17 @@ public class AchievementActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            supportFragmentManager.beginTransaction()
                     .replace(android.R.id.content, AchievementListFragment())
                     .commit()
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item!!.getItemId() == android.R.id.home) {
+        if (item!!.itemId == android.R.id.home) {
             finish()
             return true
         }

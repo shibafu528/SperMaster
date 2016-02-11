@@ -4,27 +4,27 @@ import android.provider.BaseColumns
 import android.support.v4.util.SparseArrayCompat
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
+import com.activeandroid.annotation.Column
+import com.activeandroid.annotation.Table
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.util.hourOfDay
 import info.shibafu528.spermaster.util.map
 import info.shibafu528.spermaster.util.minute
 import info.shibafu528.spermaster.util.toCalendar
 import java.util.*
-import com.activeandroid.annotation.Column as column
-import com.activeandroid.annotation.Table as table
 
 /**
  * 実績の解禁状況を記録します。
  *
  * Created by shibafu on 15/07/18.
  */
-public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : Model() {
+public @Table(name = "Achievements", id = BaseColumns._ID) class Achievement() : Model() {
     /** 実績定義を参照するためのキー。 */
-    column(name = "Key", notNull = true, unique = true)
+    @Column(name = "Key", notNull = true, unique = true)
     public var key: Int = -1
 
     /** 実績の解除日時 */
-    column(name = "UnlockedDate") public var unlockedDate: Date = Date()
+    @Column(name = "UnlockedDate") public var unlockedDate: Date = Date()
 
     /** 実績の名称。 */
     public val name: String
@@ -55,7 +55,7 @@ public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : 
          */
         public fun unlock(updatedRecord: Ejaculation): List<AchievementDefinition> {
             //解除済み実績キー
-            val unlockedKeys = Select().from(javaClass<Achievement>())
+            val unlockedKeys = Select().from(Achievement::class.java)
                                        .execute<Achievement>()
                                        .map { it.key }
 
@@ -109,7 +109,7 @@ public table(name = "Achievements", id = BaseColumns._ID) class Achievement() : 
  */
 private fun defineAchievements() {
     Achievement.create(0, "シコのケービィ", "伝説。") {
-        Select().from(javaClass<Ejaculation>())
+        Select().from(Ejaculation::class.java)
                 .where("EjaculatedDate >= ?", System.currentTimeMillis() - 60480000) // 1 week
                 .count() >= 40
     }

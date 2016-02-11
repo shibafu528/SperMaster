@@ -6,11 +6,11 @@ import android.util.Log
 import android.widget.Toast
 
 public fun Activity.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(getApplicationContext(), message, duration).show()
+    Toast.makeText(applicationContext, message, duration).show()
 }
 
 public fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(getActivity().getApplicationContext(), message, duration).show()
+    Toast.makeText(activity.applicationContext, message, duration).show()
 }
 
 public fun Activity.putDebugLog(message: Any) {
