@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import butterknife.bindView
 import com.activeandroid.query.Select
 import info.shibafu528.spermaster.R
 import info.shibafu528.spermaster.model.Achievement
@@ -48,16 +49,17 @@ public class AchievementListFragment : Fragment() {
     }
 
     private inner class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
+        val name: TextView by bindView(android.R.id.text1)
+        val description: TextView by bindView(android.R.id.text2)
+
         fun set(data: Achievement) {
             val koruri = TypefaceManager.getTypeface(activity.applicationContext, TypefaceManager.AssetTypeface.KORURI_LIGHT)
 
-            val text1 = v.findViewById(android.R.id.text1) as TextView
-            text1.text = data.name
-            text1.typeface = koruri
+            name.text = data.name
+            name.typeface = koruri
 
-            val text2 = v.findViewById(android.R.id.text2) as TextView
-            text2.text = "${data.description}\n解除日時: ${dateFormat.format(data.unlockedDate)}"
-            text2.typeface = koruri
+            description.text = "${data.description}\n解除日時: ${dateFormat.format(data.unlockedDate)}"
+            description.typeface = koruri
         }
     }
 }

@@ -13,7 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import butterknife.Bind
+import butterknife.bindView
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
@@ -153,14 +153,10 @@ public class EjaculationListFragment : Fragment(), SimpleAlertDialogFragment.OnD
     }
 
     inner class ViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
-        @Bind(R.id.totalTime) val totalTime: TextView = v.findViewById(R.id.totalTime) as TextView
-        @Bind(R.id.timeSpan) val timeSpan: TextView = v.findViewById(R.id.timeSpan) as TextView
-        @Bind(R.id.tags) val tags: TextView = v.findViewById(R.id.tags) as TextView
-        @Bind(R.id.note) val note: TextView = v.findViewById(R.id.note) as TextView
-
-        init {
-//            ButterKnife.bind(this, v)
-        }
+        val totalTime: TextView by bindView(R.id.totalTime)
+        val timeSpan: TextView by bindView(R.id.timeSpan)
+        val tags: TextView by bindView(R.id.tags)
+        val note: TextView by bindView(R.id.note)
 
         fun set(data: Ejaculation) {
             val beginDate = data.before()?.let { dateFormat.format(it.ejaculatedDate) + "\n~ " } ?: ""
